@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+	<style>
+		#grid_container {
+			display: grid;
+			grid-template-rows: repeat(9, 1fr);
+			grid-template-columns: 65px repeat(8, 120px) 1fr;
+			grid-template-areas:
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+				"show_coor_row board_container board_container board_container board_container board_container board_container board_container board_container side_bar"
+        "show_coor_row show_coor_col   show_coor_col   show_coor_col   show_coor_col   show_coor_col   show_coor_col   show_coor_col   show_coor_col   side_bar" ;										
+		}
+
+		#board_container {
+			width: 480px;
+			grid-area: board_container;
+			display: grid;
+
+
+			grid-template-rows: repeat(8, 1fr);
+			grid-template-columns: repeat(8, 1fr);
+
+			margin: 0;
+			padding: 0;
+		}
+
+		#side_bar {
+			grid-area: side_bar;
+		}
+
+		#show_coor_row{
+			grid-area: show_coor_row;
+		}
+
+		.show_coor_row_ids{
+			margin: 0px;
+			padding: 0px;
+			height: 120px;
+			font-size: 80px;
+			grid-row: 1 ;
+		}
+
+
+
+		#show_coor_col{
+			height: 60px;
+			grid-area: show_coor_col;
+
+			display: grid;
+			grid-template-rows: 100px;
+			grid-template-columns: repeat(9,120px);
+		}
+
+		.show_coor_col_ids{
+			/* grid-column: 1/8 ; */
+			grid-row: 1;
+			font-size: 80px;
+			padding-left: 30px;
+			width: 120px;
+		}
+
+		
+
+	</style>
+</head>
+
+<body>
+	<div id="grid_container">
+		<div id="show_coor_row">
+			<div class="show_coor_row_ids">8</div>
+			<div class="show_coor_row_ids">7</div>
+			<div class="show_coor_row_ids">6</div>
+			<div class="show_coor_row_ids">5</div>
+			<div class="show_coor_row_ids">4</div>
+			<div class="show_coor_row_ids">3</div>
+			<div class="show_coor_row_ids">2</div>
+			<div class="show_coor_row_ids">1</div>
+
+		</div>
+		<div id="board_container"></div>
+		<div id="side_bar">
+			<button>start</button>
+			<button>restart</button>
+			
+		</div>
+		<div      id="show_coor_col">
+			<div class="show_coor_col_ids">a</div>
+			<div class="show_coor_col_ids">b</div>
+			<div class="show_coor_col_ids">c</div>
+			<div class="show_coor_col_ids">d</div>
+			<div class="show_coor_col_ids">e</div>
+			<div class="show_coor_col_ids">f</div>
+			<div class="show_coor_col_ids">g</div>
+			<div class="show_coor_col_ids">h</div>
+		</div>
+
+	</div>
+</body>
+<script>
+
+	class Cell {
+		constructor(size, x_coor, y_coor, color) {
+			//width of the square
+			this.color = color;
+			this.size = 80;
+			this.x_coor = x_coor;
+			this.y_coor = y_coor;
+			this.id = [this.x_coor, this.y_coor];
+			this.size = size;
+			this.piece = null;
+			this.html;
+		}
+
+		get_piece() {
+			return this.piece;
+		}
+
+		set_piece(piece) {
+			this.piece = piece
+		}
+
+		get_x_coor(){
+			return this.x_coor;
+		}
+
+		get_y_coor(){
+			return this.y_coor;
+		}
+
+		cell_render(cell) {
+			let div = $("<div></div>");
+			$(div).css("display", "inline-block");
+			$(div).css("width", cell.size);
+			$(div).css("height", cell.size);
+			$(div).css("background-color", cell.color);
+
+			// $(div).on("mouseleave", () => {
+			// 	console.log(cell.get_x_coor() + " " + cell.get_y_coor());
+			// 	$(div).css("background-color","green")
+			// })
+
+			$(div).mousedown("click", () => {
+				$(div).css("background-color","green")
+				console.log(cell.get_x_coor() + " " + cell.get_y_coor());
+				if(this.piece != null){
+					this.piece.move_pattern();
+				}
+			})
+
+			$(window).mouseup( () => {
+				$(div).css("background-color",cell.color)
+				
+			})
+
+			
+			
+			$("#board_container").append(div);
+			return div;
+		}
+
+
+		cell_render_available(cell) {
+			let div = $("<div></div>");
+			$(div).css("display", "inline-block");
+			$(div).css("width", cell.size);
+			$(div).css("height", cell.size);
+			$(div).css("background-color", "blue");
+
+			// $(div).on("mouseleave", () => {
+			// 	console.log(cell.get_x_coor() + " " + cell.get_y_coor());
+			// 	$(div).css("background-color","green")
+			// })
+
+			$(window).mousedown("click", () => {
+				
+				// console.log(cell.get_x_coor() + " " + cell.get_y_coor());
+	
+			})
+			
+			
+
+			$(window).mouseup( () => {
+				$(div).css("background-color",cell.color)
+			})
+
+			// $(window).mousedown("click", () => {
+			// 	$(div).css("background-color",cell.color)
+			// 	console.log(cell.get_x_coor() + " " + cell.get_y_coor());
+			// 	if(this.piece != null){
+			// 		this.piece.move_pattern();
+			// 	}
+			// })
+
+			
+			
+			$(cell.html).html(div);
+			return div;
+		}
+
+
+	}
+
+
+
+	//col
+	class Board {
+		constructor() {
+			this.cells = [];
+		}
+
+		create_board() {
+			for (let i = 8; i >= 1; i--) {
+				//row
+				this.cells[i] = []
+				for (let j = 1; j <= 8; j++) {
+					//if even then white 
+					if ((i + j) % 2 == 0)
+						var cell = new Cell(120, i, j, "darksalmon")
+					else
+						var cell = new Cell(120, i, j, "black")
+
+					//put into the index i,j 
+					this.cells[i][j]= cell;
+
+					// cell.cell_render(cell);
+					this.cells[i][j].html = cell.cell_render(cell);
+				}
+
+			}
+		}
+
+		get_cell(x, y) {
+		
+			return this.cells[x][y];
+		}
+
+
+	}
+
+	let board = new Board();
+	board.create_board();
+
+
+	//Super Class for Pieces
+	class Piece {
+		constructor(piece_name,board,x_coor,y_coor) {
+			this.board = board;
+			this.piece_name = piece_name;
+			
+			this.img;
+			this.cell = this.board.get_cell(x_coor,y_coor);
+			this.cell.set_piece(this);
+		}
+
+		//renders the piece to the board
+		piece_render(color, x_coor, y_coor) {
+			console.log(x_coor);
+
+			let this_cell = this.cell; 
+			this_cell.set_piece(this);
+
+			console.log(this_cell.get_x_coor());
+			console.log(this_cell.get_y_coor());
+
+			$(this_cell.html).html("<img class='piece_imgs' src="+"'"+this.img+"'"+"></img>");
+			//make the pictures impossible to drag
+			$(this_cell.html).mousedown((e)=>{e.preventDefault()})
+
+			// for(let z=0; z<document.getElementsByTagName("img").length;z++)
+		  // document.getElementsByTagName("img")[z].onmousedown = function(e){
+			// 	e.preventDefault();
+			// }
+
+		}
+
+	}
+
+	class Pawn extends Piece {
+		constructor(color,board, x_coor, y_coor) {
+			super("pawn_white",board,x_coor, y_coor);
+
+
+
+			this.board = board;
+			this.color = color;
+			this.x_coor = x_coor;
+			this.y_coor = y_coor;
+			super.piece_render(color,x_coor,y_coor)
+			if (this.color == "white")
+				this.img = "./img/pawn_white.png"
+			else
+				this.img = "./img/pawn_black.png"
+
+			this.board.get_cell(x_coor, y_coor).set_piece(this);
+
+			super.piece_render(color,x_coor,y_coor)
+
+		}
+
+		// piece_render()
+
+		move_pattern() {
+			let movable_squares = [];
+			//move forward
+			if(this.x_coor >= 1 && this.board.get_cell(this.x_coor+1,this.y_coor).get_piece() == null ){
+				 movable_squares.push(this.board.get_cell(this.x_coor+1,this.y_coor))
+				 let div = this.board.get_cell(this.x_coor+1,this.y_coor);
+				 div.html = div.cell_render_available(div)
+				}
+			//two steps
+			// if(this.y_coor == 1 && this.board.get_cell[x_coor][y_coor+1].get_piece == null )
+			//    movable_squares.push(this.board.get_cell[x_coor][y_coor+2])			
+			if(this.x_coor >= 1 && this.board.get_cell(this.x_coor+2,this.y_coor).get_piece() == null 
+													&& this.board.get_cell(this.x_coor+1,this.y_coor).get_piece() == null){
+				 movable_squares.push(this.board.get_cell(this.x_coor+2,this.y_coor))
+				 let div = this.board.get_cell(this.x_coor+1,this.y_coor);
+				 div.html = div.cell_render_available(div);
+				 div = this.board.get_cell(this.x_coor+2,this.y_coor);
+				 div.html = div.cell_render_available(div);
+				}
+
+				movable_squares = []
+		}
+
+
+
+
+	}
+
+	let pawn = new Pawn("white", board, 2, 1);
+	let pawn2 = new Pawn("white", board, 2, 2);
+	let pawn3 = new Pawn("white", board, 2, 3);
+	let pawn4 = new Pawn("white", board, 2, 4);
+	let pawn5 = new Pawn("white", board, 2, 5);
+	let pawn6= new Pawn("white", board, 2, 6);
+	let pawn7= new Pawn("white", board, 2, 7);
+	let pawn8= new Pawn("white", board, 2, 8);
+</script>
+
+
+</html>
