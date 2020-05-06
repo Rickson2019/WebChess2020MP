@@ -490,7 +490,7 @@ class Pawn extends Piece {
 
 class Knight extends Piece {
     constructor(color, board, x_coor, y_coor) {
-        super("pawn_" + color, board, x_coor, y_coor);
+        super("knight_" + color, board, x_coor, y_coor);
         this.board = board;
         this.color = color;
         this.x_coor = x_coor;
@@ -499,9 +499,9 @@ class Knight extends Piece {
         //renders the chess according to the right color
         super.piece_render(color, x_coor, y_coor)
         if (this.color == "white")
-            this.img = "./img/pawn_white.png"
+            this.img = "/img/White_Knight.png"
         else
-            this.img = "./img/pawn_black.png"
+            this.img = "/img/Black_Knight.png"
 
         //this line of code 
         this.board.get_cell(x_coor, y_coor).set_piece(this);
@@ -509,6 +509,9 @@ class Knight extends Piece {
         super.piece_render(color, x_coor, y_coor)
 
     }
+
+
+    
 
 
     move_pattern(color) {
@@ -540,6 +543,103 @@ class Knight extends Piece {
     }
 }
 
+
+class Bishop extends Piece {
+    constructor(color, board, x_coor, y_coor) {
+        super("bishop_" + color, board, x_coor, y_coor);
+        this.board = board;
+        this.color = color;
+        this.x_coor = x_coor;
+        this.y_coor = y_coor;
+
+        //renders the chess according to the right color
+        super.piece_render(color, x_coor, y_coor)
+        if (this.color == "white")
+            this.img = "/img/White_Bishop.png"
+        else
+            this.img = "/img/Black_Bishop.png"
+
+        //this line of code 
+        this.board.get_cell(x_coor, y_coor).set_piece(this);
+        //invokes the render method from the super class 
+        super.piece_render(color, x_coor, y_coor)
+
+    }
+}
+
+class Rook extends Piece {
+    constructor(color, board, x_coor, y_coor) {
+        super("rook_" + color, board, x_coor, y_coor);
+        this.board = board;
+        this.color = color;
+        this.x_coor = x_coor;
+        this.y_coor = y_coor;
+
+        //renders the chess according to the right color
+        super.piece_render(color, x_coor, y_coor)
+        if (this.color == "white")
+            this.img = "/img/White_Rook.png"
+        else
+            this.img = "/img/Black_Rook.png"
+
+        //this line of code 
+        this.board.get_cell(x_coor, y_coor).set_piece(this);
+        //invokes the render method from the super class 
+        super.piece_render(color, x_coor, y_coor)
+
+    }
+}
+
+class King extends Piece {
+    constructor(color, board, x_coor, y_coor) {
+        super("king_" + color, board, x_coor, y_coor);
+        this.board = board;
+        this.color = color;
+        this.x_coor = x_coor;
+        this.y_coor = y_coor;
+
+        //renders the chess according to the right color
+        super.piece_render(color, x_coor, y_coor)
+        if (this.color == "white")
+            this.img = "/img/White_King.png"
+        else
+            this.img = "/img/Black_King.png"
+
+        //this line of code 
+        this.board.get_cell(x_coor, y_coor).set_piece(this);
+        //invokes the render method from the super class 
+        super.piece_render(color, x_coor, y_coor)
+
+    }
+}
+
+class Queen extends Piece {
+    constructor(color, board, x_coor, y_coor) {
+        super("queen_" + color, board, x_coor, y_coor);
+        this.board = board;
+        this.color = color;
+        this.x_coor = x_coor;
+        this.y_coor = y_coor;
+
+        //renders the chess according to the right color
+        super.piece_render(color, x_coor, y_coor)
+        if (this.color == "white")
+            this.img = "/img/White_Queen.png"
+        else
+            this.img = "/img/Black_Queen.png"
+
+        //this line of code 
+        this.board.get_cell(x_coor, y_coor).set_piece(this);
+        //invokes the render method from the super class 
+        super.piece_render(color, x_coor, y_coor)
+
+    }
+}
+
+
+
+
+
 function active_black() {
     pawn9.active = true;
     pawn10.active = true;
@@ -550,6 +650,14 @@ function active_black() {
     pawn15.active = true;
     pawn16.active = true;
 
+    night3.active = true;
+    night4.active = true;
+
+    bishop3.active = true;
+    bishop4.active = true;
+
+    
+
 
     pawn1.active = false;
     pawn2.active = false;
@@ -559,6 +667,12 @@ function active_black() {
     pawn6.active = false;
     pawn7.active = false;
     pawn8.active = false;
+
+    night1.active = false
+    night2.active = false
+
+    bishop1.active = false;
+    bishop2.active = false;
 
 }
 
@@ -582,6 +696,12 @@ function active_white() {
     pawn7.active = true;
     pawn8.active = true;
 
+    night1.active = true
+    night2.active = true
+
+    bishop1.active = true;
+    bishop2.active = true;
+
 }
 
 
@@ -603,8 +723,30 @@ let pawn6 = new Pawn("white", board, 6, 2);
 let pawn7 = new Pawn("white", board, 7, 2);
 let pawn8 = new Pawn("white", board, 8, 2);
 
+//white_knight
+let night1 = new Knight("white",board,2,1)
+let night2 = new Knight("white",board,7,1)
+
+//white_bishop
+let bishop1 = new Bishop("white",board,3,1)
+let bishop2 = new Bishop("white",board,6,1)
+
+//white_rook
+let rook1 = new Rook("white",board,1,1)
+let rook2 = new Rook("white",board,8,1)
+
+//white_king
+let king1 = new King("white",board,5,1)
+
+//white_queen
+let queen1 = new Queen("white",board,4,1)
+
+
+
+
+
 //black pawns
-let pawn9 = new Pawn("black", board, 1, 7);
+let pawn9 = new Pawn( "black", board, 1, 7);
 let pawn10 = new Pawn("black", board, 2, 7);
 let pawn11 = new Pawn("black", board, 3, 7);
 let pawn12 = new Pawn("black", board, 4, 7);
@@ -613,6 +755,24 @@ let pawn14 = new Pawn("black", board, 6, 7);
 let pawn15 = new Pawn("black", board, 7, 7);
 let pawn16 = new Pawn("black", board, 8, 7);
 
+//black_knight
+let night3 = new Knight("black",board,2,8)
+let night4 = new Knight("black",board,7,8)
+
+
+//black_bishop
+let bishop3 = new Bishop("black",board,3,8)
+let bishop4 = new Bishop("black",board,6,8)
+
+//black_rook
+let rook3 = new Rook("black",board,1,8)
+let rook4 = new Rook("black",board,8,8)
+
+//black_king
+let king2 = new King("black",board,5,8)
+
+//black_queen
+let queen2 = new Queen("black",board,4,8)
 
 
 class Event_Listener {
