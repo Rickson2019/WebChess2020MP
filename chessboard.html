@@ -3,9 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+	
 	<style>
 		#grid_container {
 			display: grid;
@@ -89,10 +87,11 @@
 			<div class="show_coor_row_ids">1</div>
 
 		</div>
+		<!-- board_container essential is the board itself, html elements created via javascript -->
 		<div id="board_container"></div>
 		<div id="side_bar">
 			<button>start</button>
-			<button>restart</button>
+			<button onclick="restart()">restart</button>
 			
 		</div>
 		<div      id="show_coor_col">
@@ -108,9 +107,20 @@
 
 	</div>
 </body>
-<script src="./script/chessboard.js">
+
+<!-- <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+	<script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.4.1.min.js"></script>
+<script src="/script/chessboard.js">
 
 	
+</script>
+<script>
+
+function restart(){
+	window.location.href = "/restart";
+}
+
 </script>
 
 
